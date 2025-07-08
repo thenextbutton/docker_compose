@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  ddns-updater:
+    image: qmcgaw/ddns-updater:latest
+    container_name: ddns-updater
+    environment:
+      - PERIOD=10m          # How often to check for IP changes
+      - TZ=Europe/London    # Set the timezone for the container
+      # - RESOLVER_ADDRESS=8.8.8.8:53 # Uncomment and set if you need a specific DNS resolver for the updater
+      - BACKUP_DIRECTORY=/updater/data #
+      - BACKUP_PERIOD=1440m # How often to backup the configuration (1440m = 24 hours)
+      - LOG_LEVEL=debug     # Set the logging level (e.g., info, warn, error, debug)
+    ports:
+      - "8010:8000/tcp" # Map host port 8010 to container port 8000 for the web interface
+    volumes:
+      - ddns_data:/updater/data # Mount the named volume for persistent data
+    restart: unless-stopped #
+    dns: # Use external DNS servers for the container's resolution
+      - 1.1.1.1 #
+      - 8.8.8.8 #
+
+volumes:
+  ddns_data:
+    external: true # Assumes this volume is created externally (e.g., `docker volume create ddns_data`)

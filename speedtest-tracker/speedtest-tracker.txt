@@ -1,0 +1,24 @@
+services:
+  speedtest-tracker:
+    image: lscr.io/linuxserver/speedtest-tracker:latest
+    container_name: speedtest-tracker
+    environment:
+      - PUID=1000                      # User ID for the container (often your host user ID)
+      - PGID=1000                      # Group ID for the container (often your host group ID)
+      - TZ=Etc/UTC                     # Set the timezone for the container
+      - DB_CONNECTION=sqlite           # Use SQLite for the database (default)
+      - APP_NAME=Speedtest Tracker     # Name displayed in the application
+      - PUBLIC_DASHBOARD=True          # Set to 'True' to make the dashboard publicly accessible
+      - APP_KEY=${APP_KEY} # Application key for security (replace with your own generated key)
+      - SPEEDTEST_SCHEDULE='*/60 * * * *' # Cron schedule for running speed tests (e.g., every 60 minutes)
+      - SPEEDTEST_SERVERS="37675,4058,63731,38157" # Comma-separated list of Speedtest.net server IDs to use
+      - PRUNE_RESULTS_OLDER_THAN="30"  # Number of days after which old results will be pruned (0 disables pruning)
+    volumes:
+      - speedtest-tracker_data:/config # Persistent storage for application configuration and SQLite database
+    ports:
+      - "8765:80"                      # Maps host port 8765 to container port 80 for the web UI
+    restart: unless-stopped            # Ensures the container restarts automatically unless explicitly stopped
+
+volumes:
+  speedtest-tracker_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create speedtest-tracker_data`)

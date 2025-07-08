@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  frigate:
+    container_name: frigate #
+    privileged: true # This may be necessary for hardware access, but consider if it's strictly needed for your setup.
+    restart: unless-stopped #
+    image: ghcr.io/blakeblackshear/frigate:stable #
+    shm_size: "64mb" # Adjust this value based on Frigate's recommendations for your camera setup.
+    devices: #
+      # Uncomment and configure the appropriate device paths for your hardware:
+      # - /dev/bus/usb:/dev/bus/usb # For USB Coral (e.g., Google Coral USB Accelerator)
+      # - /dev/apex_0:/dev/apex_0   # For PCIe Coral (e.g., Google Coral M.2/PCIe Accelerator)
+      # - /dev/video11:/dev/video11 # For specific video capture devices (e.g., Raspberry Pi Camera)
+      # - /dev/dri/renderD128:/dev/dri/renderD128 # For Intel hardware acceleration (iGPU)
+      # - /dev/dri:/dev/dri         # General Intel GPU access
+      - /dev:/dev # Broad device access; consider narrowing this down if possible for security.
+    volumes:
+      - /etc/localtime:/etc/localtime:ro # Syncs the container's timezone with the host.
+      - frigate_config:/config           # Persistent storage for Frigate configuration.
+      - frigate_storage:/media/frigate   # Persistent storage for recordings and clips.
+      - type: tmpfs                      # Optional: Utilizes RAM for cache to reduce disk wear.
+        target: /tmp/cache #
+        tmpfs:
+          size: 1000000000 # 1GB
+    ports:
+      - "5000:5000"     # Frigate web interface
+      - "8554:8554"     # RTSP feeds from Frigate
+      - "8555:8555/tcp" # WebRTC over TCP
+      - "8555:8555/udp" # WebRTC over UDP
+    environment:
+      - FRIGATE_RTSP_PASSWORD: ${FRIGATE_RTSP_PASSWORD} # Define this in your .env file with a strong password.
+
+volumes: #
+  frigate_config:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create frigate_config`).
+  frigate_storage: #
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create frigate_storage`).

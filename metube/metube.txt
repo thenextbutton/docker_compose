@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  metube:
+    image: ghcr.io/alexta69/metube
+    container_name: metube
+    restart: unless-stopped
+    ports:
+      - "8081:8081" # Maps host port 8081 to container port 8081 for MeTube's web interface.
+    volumes: #
+      - downloads:/downloads        # Mounts the NFS volume for downloaded media files.
+      - metube_cookies:/cookies     # Mounts the named volume for persistent cookie storage.
+    environment: #
+      # Configures youtube-dl within MeTube to use the specified cookie file for authenticated downloads.
+      - YTDL_OPTIONS={"cookiefile":"/cookies/cookies.txt"} #
+
+volumes:
+  downloads:
+    driver: local #
+    driver_opts:
+      type: "nfs" # Specifies NFS as the volume driver type.
+      o: "addr=${NFS_SERVER_IP},nfsvers=4,nolock,soft,rw" # Define NFS_SERVER_IP in your .env file
+      device: ":/volume1/Debian_Share/metube_downloads" #
+  metube_cookies: #
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create metube_cookies`).

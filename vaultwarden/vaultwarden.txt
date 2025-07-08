@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    environment:
+      - WEBSOCKET_ENABLED=true           # Enables WebSocket connections for real-time updates
+      - SIGNUPS_ALLOWED=false            # Disables new user sign-ups
+      - INVITATIONS_ALLOWED=false        # Disables inviting new users
+      - ADMIN_TOKEN=${ADMIN_TOKEN} # IMPORTANT: Replace with a strong, randomly generated token for admin access
+      - DOMAIN=${VAULTWARDEN_DOMAIN} # Set the public domain for Vaultwarden
+      - PUID=1000                        # User ID for the container (often your host user ID)
+      - PGID=1000                        # Group ID for the container (often your host group ID)
+      - TZ=Europe/London                 # Set the timezone for the container
+    volumes:
+      - vaultwarden_data:/data # Persistent storage for Vaultwarden's database, attachments, and configuration
+    ports:
+      - "8001:80" # Maps host port 8001 to container port 80 for the web UI
+    networks:
+      - cloudflared_cloudflared # Connects to the Cloudflared network for external access (e.g., via Cloudflare Tunnel)
+
+volumes:
+  vaultwarden_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create vaultwarden_data`)
+
+networks:
+  cloudflared_cloudflared:
+    external: true # Assumes this network is created externally by another Docker Compose stack or manually

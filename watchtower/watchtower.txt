@@ -1,0 +1,22 @@
+version: "2.3"
+
+services:
+  watchtower:
+    image: containrrr/watchtower:latest # Specifies the Watchtower image to use
+    container_name: watchtower # Explicitly names the container for easier management
+    environment:
+      - TZ=Europe/London                 # Optional: set the desired timezone for logs and timestamps
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin # Standard PATH variable
+      - WATCHTOWER_CLEANUP=true          # Enables removal of old images after updates
+      - WATCHTOWER_INCLUDE_STOPPED=true  # Includes stopped containers in the update checks
+      - WATCHTOWER_POLL_INTERVAL=3600    # Checks for updates every 3600 seconds (1 hour)
+      - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_HTTP_API_TOKEN} # IMPORTANT: Replace with a strong, unique token for API access
+      - WATCHTOWER_HTTP_API_METRICS=True # Enables HTTP API for metrics (e.g., for Prometheus)
+      - WATCHTOWER_NOTIFICATIONS=shoutrrr # Configures Watchtower to use Shoutrrr for notifications
+      - WATCHTOWER_NOTIFICATION_URL=${WATCHTOWER_NOTIFICATION_URL} # Shoutrrr URL for notifications (e.g., Ntfy)
+    user: "0:0" # Optional: run as root (uid:gid); consider changing to a less privileged user if possible
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Mounts the Docker socket for Watchtower to monitor and update containers
+    ports:
+      - "8080:8080" # Maps host port 8080 to container port 8080 for Watchtower's HTTP API (if enabled)
+    restart: unless-stopped # Ensures the container restarts automatically unless explicitly stopped

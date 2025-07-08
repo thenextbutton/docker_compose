@@ -1,0 +1,19 @@
+version: '3.0'
+
+services:
+  wallos:
+    container_name: wallos
+    image: bellamy/wallos:latest
+    ports:
+      - "8282:80/tcp" # Maps host port 8282 to container port 80 (TCP) for the Wallos web UI.
+    environment:
+      TZ: 'Europe/London' # Set the timezone for the container.
+    volumes:
+      - wallos_data:/var/www/html/db            # Persistent storage for Wallos database.
+      - wallos_data:/var/www/html/images/uploads/logos # Persistent storage for uploaded logos.
+                                                # Both paths are mapped to the same external volume, wallos_data.
+    restart: unless-stopped # Ensures the container restarts automatically unless explicitly stopped.
+
+volumes:
+  wallos_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create wallos_data`).

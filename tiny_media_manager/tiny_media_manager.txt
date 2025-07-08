@@ -1,0 +1,41 @@
+version: "2.1"
+
+services:
+  tinymediamanager:
+    image: tinymediamanager/tinymediamanager:latest
+    container_name: tinymediamanager
+    privileged: true # This might be required for certain host interactions, but consider if it's strictly necessary.
+    environment:
+      - USER_ID=0              # User ID for the container (0 is root; adjust as needed for permissions)
+      - GROUP_ID=0             # Group ID for the container (0 is root; adjust as needed for permissions)
+      # - ALLOW_DIRECT_VNC=true  # Uncomment to enable direct VNC access
+      - LC_ALL=en_US.UTF-8     # Force UTF-8 locale for character encoding
+      - LANG=en_US.UTF-8       # Force UTF-8 locale for language settings
+      - PASSWORD=${TMM_PASSWORD} # Password for the Tiny Media Manager web interface (set in a .env file)
+    volumes:
+      - tinymediamanager_data:/data     # Persistent storage for TMM configuration and data
+      - tinymediamanager_addons:/app/addons # Persistent storage for TMM add-ons
+      - plex_movies:/media/movies     # Mount your movie library from an NFS share
+      - plex_tv_shows:/media/tv_shows # Mount your TV show library from an NFS share
+    ports:
+      # - "5900:5900" # Uncomment to expose the VNC port for remote access
+      - "4000:4000"   # Expose the Tiny Media Manager web interface
+    restart: unless-stopped # Ensures the container restarts automatically unless explicitly stopped
+
+volumes:
+  tinymediamanager_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create tinymediamanager_data`)
+  tinymediamanager_addons:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create tinymediamanager_addons`)
+  plex_movies:
+    driver: local
+    driver_opts:
+      type: "nfs" # Specifies NFS as the volume driver type
+      o: "addr=${NFS_SERVER_IP},nfsvers=4,nolock,soft,rw" # Define NFS_SERVER_IP in your .env file
+      device: ":/volume1/Media/Movies" # The remote NFS path for movies
+  plex_tv_shows:
+    driver: local
+    driver_opts:
+      type: "nfs" # Specifies NFS as the volume driver type
+      o: "addr=${NFS_SERVER_IP},nfsvers=4,nolock,soft,rw" # Define NFS_SERVER_IP in your .env file
+      device: ":/volume1/Media/TV_Shows" # The remote NFS path for TV shows

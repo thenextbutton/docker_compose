@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  koillection:
+    image: koillection/koillection
+    container_name: koillection
+    restart: unless-stopped
+    ports:
+      - "9180:80" # Maps host port 9180 to container port 80 for the Koillection web UI
+    env_file:
+      - stack.env # Loads environment variables for Koillection from stack.env (keep this file out of Git)
+    depends_on:
+      - postgres # Ensures the PostgreSQL database starts before Koillection
+    volumes:
+      - koillection_data:/uploads # Persistent storage for Koillection uploads (e.g., images)
+
+  postgres:
+    image: postgres:16 # Using PostgreSQL version 16
+    container_name: koillection_postgres
+    restart: unless-stopped
+    env_file:
+      - stack.env # Loads environment variables for PostgreSQL from stack.env (keep this file out of Git)
+    environment:
+      - POSTGRES_DB=${DB_NAME}      # Database name, sourced from stack.env
+      - POSTGRES_USER=${DB_USER}    # Database user, sourced from stack.env
+      - POSTGRES_PASSWORD=${DB_PASSWORD} # Database password, sourced from stack.env
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data # Persistent storage for PostgreSQL data
+
+volumes:
+  koillection_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create koillection_data`)
+  postgresql_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create postgresql_data`)

@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  nginx-app:
+    image: "jc21/nginx-proxy-manager:latest"
+    container_name: nginx # Renamed to 'nginx' for simplicity, as it's the primary Nginx service
+    restart: always
+    ports:
+      - "80:80"   # HTTP port for web traffic and ACME challenges
+      - "81:81"   # Nginx Proxy Manager admin interface
+      - "443:443" # HTTPS port for secure web traffic
+    volumes:
+      - nginx_data:/data           # Persistent storage for Nginx Proxy Manager's configuration and database
+      - nginx_letsencrypt:/etc/letsencrypt # Persistent storage for SSL certificates issued by Let's Encrypt
+    # networks:
+    #   - default # Default network created by Docker Compose for inter-container communication
+    #   - cloudflared_cloudflared # Uncomment and configure if you are connecting to an external Cloudflared network
+
+# Uncomment the following section if you are using external networks (e.g., Cloudflared)
+# networks:
+#   cloudflared_cloudflared:
+#     external: true # Assumes this network is created externally by another Docker Compose stack or manually
+
+volumes:
+  nginx_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create nginx_data`)
+  nginx_letsencrypt:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create nginx_letsencrypt`)

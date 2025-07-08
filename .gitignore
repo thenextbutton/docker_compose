@@ -1,0 +1,17 @@
+# Ignore .env files in any directory
+*.env
+
+# Ignore a specific stack.env file if used
+stack.env
+
+# Other common ignores (examples):
+# Node.js dependencies
+node_modules/
+
+# Python compiled files
+__pycache__/
+*.pyc
+
+# Operating System temporary files
+.DS_Store # macOS
+Thumbs.db # Windows

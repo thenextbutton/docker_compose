@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  netalertx:
+    container_name: netalertx
+    image: "jokobsk/netalertx:latest"
+    network_mode: "host" # Allows the container to use the host's network stack directly
+    restart: unless-stopped
+    volumes:
+      - netalertx_config_data:/app/config:rw # Persistent storage for NetAlertX configuration
+      - netalertx_db_data:/app/db:rw         # Persistent storage for NetAlertX database files
+      # - netalertx_logs_data:/app/front/log:rw # Optional: Persistent storage for logs, useful for debugging
+    environment:
+      - TZ=Europe/London # Set the timezone for the container
+      - PORT=20211       # Set the port NetAlertX listens on inside the container
+    ports:
+      - "20211:20211" # Maps host port 20211 to container port 20211
+
+volumes:
+  netalertx_config_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create netalertx_config_data`)
+  netalertx_db_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create netalertx_db_data`)
+  netalertx_logs_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create netalertx_logs_data`)

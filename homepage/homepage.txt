@@ -1,0 +1,38 @@
+version: "3.3"
+
+services:
+  dockerproxy:
+    image: ghcr.io/tecnativa/docker-socket-proxy:latest
+    container_name: dockerproxy
+    environment:
+      # Configure API access permissions (0 = disallow, 1 = allow)
+      - CONTAINERS=1 # Allow viewing containers
+      - SERVICES=1   # Allow viewing services (useful with Docker Swarm)
+      - TASKS=1      # Allow viewing tasks (useful with Docker Swarm)
+      - POST=0       # Disallow any POST operations (read-only access)
+    ports:
+      - "127.0.0.1:2375:2375" # Expose the proxy on localhost port 2375
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Mount the Docker socket as read-only
+    restart: unless-stopped #
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    environment:
+      - PUID=1000        # User ID for the container (often your host user ID)
+      - PGID=1000        # Group ID for the container (often your host group ID)
+      - TZ=Europe/London # Set the timezone for the container
+    ports:
+      - "3030:3000" # Map host port 3030 to container port 3000 for the Homepage web UI
+    volumes:
+      - homepage_data:/app/config       # Persistent storage for Homepage's configuration files
+      - homepage_images_data:/app/public/images # Persistent storage for custom images
+      # - /var/run/docker.sock:/var/run/docker.sock:ro # Optional: Uncomment for Docker integration (e.g., displaying Docker container status)
+    restart: unless-stopped #
+
+volumes:
+  homepage_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create homepage_data`)
+  homepage_images_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create homepage_images_data`)

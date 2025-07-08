@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  gatus:
+    image: twinproduction/gatus:latest
+    container_name: gatus # Explicitly naming the container for easier management
+    ports:
+      - "9080:8080" # Maps host port 9080 to container port 8080 for the Gatus web interface
+    volumes:
+      - gatus_config:/config # Mounts the named volume for Gatus configuration files
+      - gatus_data:/data/    # Mounts the named volume for Gatus data (e.g., metrics, history)
+    environment:
+      - GATUS_DELAY_START_SECONDS=120 # Delays the start of Gatus checks by 120 seconds
+    restart: unless-stopped # Ensures the container restarts automatically unless explicitly stopped
+
+volumes:
+  gatus_data:
+    external: true # Assumes this volume is created externally (e.g., `docker volume create gatus_data`)
+  gatus_config:
+    external: true # Assumes this volume is created externally (e.g., `docker volume create gatus_config`)

@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:1 # Specifies the Uptime Kuma image to use
+    container_name: uptime-kuma # Explicitly names the container for easier management
+    restart: unless-stopped # Ensures the container restarts automatically unless explicitly stopped
+    volumes:
+      - uptime-kuma_data:/app/data # Persistent storage for Uptime Kuma's configuration and data
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Mounts the Docker socket (read-only) for Docker host monitoring
+    environment:
+      - PUID=0             # User ID for the container (0 is root; adjust for less privileged user if possible)
+      - PGID=0             # Group ID for the container (0 is root; adjust for less privileged user if possible)
+      - TZ=Europe/London   # Set the timezone for the container
+    ports:
+      - "3001:3001" # Maps host port 3001 to container port 3001 for the Uptime Kuma web UI
+
+volumes:
+  uptime-kuma_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create uptime-kuma_data`)

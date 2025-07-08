@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  tautulli:
+    image: ghcr.io/tautulli/tautulli:latest
+    container_name: tautulli
+    restart: unless-stopped
+    volumes:
+      - tautulli_data:/config # Persistent storage for Tautulli's configuration and database
+    environment:
+      - PUID=1000        # User ID for the container (often your host user ID)
+      - PGID=1000        # Group ID for the container (often your host group ID)
+      - TZ=Europe/London # Set the timezone for the container
+    ports:
+      - "8181:8181" # Maps host port 8181 to container port 8181 for the Tautulli web UI
+
+volumes:
+  tautulli_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create tautulli_data`)

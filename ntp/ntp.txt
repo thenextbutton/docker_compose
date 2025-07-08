@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  ntp:
+    image: cturra/ntp:latest
+    container_name: ntp
+    restart: always
+    environment:
+      # Configure NTP servers. For multiple, use a comma-delimited list without spaces.
+      - NTP_SERVERS="time.cloudflare.com"
+      # - NTP_SERVERS="time1.google.com,time2.google.com,time3.google.com,time4.google.com"
+      - LOG_LEVEL=0 # Set logging verbosity (0 for info, 1 for debug, 2 for verbose)
+      # - TZ=Europe/London # Uncomment to set the container's timezone
+      # - NOCLIENTLOG=true # Uncomment to disable logging of client requests
+      # - ENABLE_NTS=true # Uncomment to enable Network Time Security (NTS) if supported by your servers
+    ports:
+      - "123:123/udp" # Exposes UDP port 123 for NTP synchronization
+    volumes:
+      - ntp_data:/var/lib/chrony:rw # Persistent storage for chrony (NTP client/server) data
+
+volumes:
+  ntp_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create ntp_data`)

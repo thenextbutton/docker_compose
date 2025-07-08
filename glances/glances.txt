@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  glances:
+    container_name: glances #
+    image: nicolargo/glances:latest-full # Using the latest full image for comprehensive monitoring.
+    restart: unless-stopped #
+    pid: host # Allows Glances to monitor host processes.
+    network_mode: host # Enables host network mode for full network visibility.
+    ports: #
+      - "61208:61208" # Maps host port 61208 to container port 61208 for Glances web UI.
+    volumes: #
+      - /var/run/docker.sock:/var/run/docker.sock # Mounts Docker socket for container monitoring.
+      # - /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock # Uncomment if using Podman for container monitoring.
+      - glances_data:/glances/conf # Persistent storage for Glances configuration.
+      - /etc/os-release:/etc/os-release:ro # Provides OS release information to Glances.
+    environment:
+      - "GLANCES_OPT=-w" # Starts Glances in web server mode.
+      - TZ=Europe/London # Sets the timezone inside the container.
+
+volumes:
+  glances_data:
+    external: true # Assumes this volume is created externally (e.g., `docker volume create glances_data`).

@@ -1,0 +1,32 @@
+services:
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: audiobookshelf # It's good practice to explicitly name your containers
+    ports:
+      - "13378:80" # Maps host port 13378 to container port 80
+    volumes:
+      - audiobooks:/audiobooks #
+      - podcasts:/podcasts #
+      - audiobookshelf_config:/config #
+      - audiobookshelf_metadata:/metadata #
+    environment:
+      - TZ=Europe/London # Set the timezone for the container
+    restart: unless-stopped #
+
+volumes:
+  audiobooks:
+    driver: local #
+    driver_opts:
+      type: "nfs" #
+      o: "addr=${NFS_SERVER_IP},nfsvers=4,nolock,soft,rw" # Define NFS_SERVER_IP in your .env file
+      device: ":/volume1/Media/Audio_Books" #
+  podcasts:
+    driver: local #
+    driver_opts:
+      type: "nfs" #
+      o: "addr=${NFS_SERVER_IP},nfsvers=4,nolock,soft,rw" # Define NFS_SERVER_IP in your .env file
+      device: ":/volume1/Media/Podcasts" #
+  audiobookshelf_metadata:
+    external: true #
+  audiobookshelf_config:
+    external: true #

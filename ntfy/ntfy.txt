@@ -1,0 +1,38 @@
+version: "2.3"
+
+services:
+  ntfy:
+    image: binwiederhier/ntfy:latest # It's good practice to explicitly define 'latest' or a specific tag
+    container_name: ntfy
+    command:
+      - serve # Command to start the ntfy server
+    environment:
+      - TZ=Europe/London                # Optional: set desired timezone for logs and timestamps
+      - NTFY_BASE_URL=${NTFY_BASE_URL} # The base URL where ntfy is accessible (adjust to your external access URL)
+      - NTFY_BEHIND_PROXY=true          # Set to 'true' if ntfy runs behind a reverse proxy
+      - NTFY_CACHE_FILE=/var/cache/ntfy/cache.db         # Path for the ntfy cache database
+      - NTFY_ATTACHMENT_CACHE_DIR=/var/lib/ntfy/attachments # Directory for cached attachments
+      - NTFY_CACHE_DURATION=168h        # Duration to keep messages in cache (168h = 7 days)
+      - NTFY_AUTH_DEFAULT_ACCESS=deny-all # Default access policy: deny all unless explicitly allowed
+      # - NTFY_ENABLE_LOGIN=true        # Uncomment to enable user login for authentication
+    user: "0:0" # Optional: run as root (uid:gid); consider changing to a less privileged user if possible
+    volumes:
+      - ntfy_cache_data:/var/cache/ntfy # Persistent storage for ntfy's cache data
+      - ntfy_etc_data:/etc/ntfy         # Persistent storage for ntfy's configuration files
+    ports:
+      - "4001:80" # Maps host port 4001 to container port 80 for the ntfy web interface
+    healthcheck:
+      # Checks if the ntfy server is healthy by fetching its health endpoint.
+      # Remember to adapt the host:port (http://your-ntfy-domain.com:4001) in the test command to your actual URL.
+      test: ["CMD-SHELL", "wget -q --tries=1 ${NTFY_BASE_URL}/v1/health -O - | grep -Eo '\\\"healthy\\\"\\\\s*:\\\\s*true' || exit 1"]
+      interval: 60s    # How often to run the check
+      timeout: 10s     # How long to wait for a response
+      retries: 3       # How many times to retry if the check fails
+      start_period: 40s # Initial delay before starting health checks
+    restart: unless-stopped # Always restart the container unless it's explicitly stopped
+
+volumes:
+  ntfy_cache_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create ntfy_cache_data`)
+  ntfy_etc_data:
+    external: true # Assumes this volume is pre-created (e.g., `docker volume create ntfy_etc_data`)
