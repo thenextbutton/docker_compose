@@ -1,6 +1,6 @@
 # 🐳 Docker Compose Stacks
 
-This repository contains various Docker Compose configurations for self-hosted applications and services. Each subdirectory represents a distinct Docker Compose stack, allowing for easy deployment and management of individual services.
+These are my personal Docker Compose configurations for self-hosted applications and services. Each subdirectory holds a distinct stack, helping me remember how to deploy and manage them.
 
 ---
 
@@ -22,7 +22,7 @@ This repository contains various Docker Compose configurations for self-hosted a
 * [⚡ Speedtest Tracker](#-speedtest-tracker)
 * [📄 Static Web Server](#-static-web-server)
 * [🍿 Tautulli](#-tautulli)
-* [🗄️ Tiny Media Manager](#-tiny-media-manager)
+* [🗄 Tiny Media Manager](#-tiny-media-manager)
 * [✅ Uptime Kuma](#-uptime-kuma)
 * [🔐 Vaultwarden](#-vaultwarden)
 * [💰 Wallos](#-wallos)
@@ -30,134 +30,134 @@ This repository contains various Docker Compose configurations for self-hosted a
 
 ---
 
-## 🏠 AdGuard Home Sync
+## 🏠 [AdGuard Home Sync](https://github.com/thenextbutton/docker_compose/tree/main/adguardhome-sync)
 
-The stack provides the necessary components to synchronize configurations between multiple **AdGuard Home** instances. It's ideal for maintaining consistent ad-blocking rules and settings across different devices or locations.
-
----
-
-## 📚 Audiobookshelf
-
-
-Directory contains the Docker Compose setup for **Audiobookshelf**, a self-hosted audiobook and podcast server. It allows you to organize, stream, and listen to your audio content from anywhere.
+This stack is for **syncing AdGuard Home configurations** between instances. Helps keep my ad-blocking rules consistent everywhere.
 
 ---
 
-## 🌐 DDNS Updater
-
-Configuration deploys a **Dynamic DNS (DDNS) updater** service. It's used to automatically update your domain's A/AAAA records with your current public IP address, ensuring your services remain accessible even if your IP changes.
-
----
-
-## 📹 Frigate
+## 📚 [Audiobookshelf](https://github.com/thenextbutton/docker_compose/tree/main/audiobookshelf)
 
 
-Stack is for **Frigate**, an open-source NVR (Network Video Recorder) with AI object detection. It utilizes a Google Coral TPU (or CPU) to process video streams from IP cameras and detect objects like people, cars, and animals, triggering recordings and notifications.
+My Docker Compose setup for **Audiobookshelf**, a self-hosted server for audiobooks and podcasts. Lets me organize and stream my audio content.
 
 ---
 
-## 💚 Gatus
+## 🌐 [DDNS Updater](https://github.com/thenextbutton/docker_compose/tree/main/ddns-updater)
 
-Directory contains the Docker Compose setup for **Gatus**, a health dashboard. It allows you to monitor the status and uptime of your services and websites, providing alerts and visual feedback on their availability.
-
----
-
-## 📊 Glances
-
-
-Configuration runs **Glances**, a cross-platform system monitoring tool. It provides a comprehensive overview of your server's resources, including CPU, memory, disk I/O, network usage, and running processes.
+This deploys my **Dynamic DNS (DDNS) updater**. It automatically updates my domain's IP so services stay accessible even if my home IP changes.
 
 ---
 
-## 🚀 Homepage
+## 📹 [Frigate](https://github.com/thenextbutton/docker_compose/tree/main/frigate)
 
-Stack sets up a customizable **homepage** for your self-hosted services. It acts as a central dashboard, providing quick access to all your applications and displaying relevant information at a glance.
 
----
-
-## 🖼 Koillection
-
-Directory contains the Docker Compose setup for **Koillection**, a self-hosted collection management tool. It helps you organize and catalog your physical and digital collections, such as movies, books, games, or anything else you collect.
+This stack is for **Frigate**, my NVR with AI object detection. It uses a Coral TPU to process camera feeds, detect objects, and trigger recordings/notifications.
 
 ---
 
-## ▶ MeTube
+## 💚 [Gatus](https://github.com/thenextbutton/docker_compose/tree/main/gatus)
 
-
-Configuration deploys **MeTube**, a web GUI for `yt-dlp`. It allows you to easily download videos and audio from various online platforms through a user-friendly interface.
-
----
-
-## 🚨 NetAlertX
-
-Stack is for **NetAlertX**, a network monitoring and alerting tool. It helps you keep track of devices on your network, detect new devices, and receive alerts for changes or intrusions.
+My Docker Compose setup for **Gatus**, my health dashboard. I use it to monitor the status and uptime of my services and get alerts.
 
 ---
 
-## ⚙ Nginx Proxy Manager
+## 📊 [Glances](https://github.com/thenextbutton/docker_compose/tree/main/glances)
 
 
-Directory contains the Docker Compose setup for **Nginx Proxy Manager**. This tool provides a simple web interface to manage Nginx proxy hosts with free SSL certificates from Let's Encrypt, making it easy to expose your self-hosted services securely.
-
----
-
-## 🔔 Ntfy
-
-Configuration deploys **Ntfy**, a simple HTTP-based push notification service. It allows you to send push notifications to your phone or desktop from scripts or applications.
+This runs **Glances**, my system monitoring tool. It gives me a quick overview of server resources: CPU, RAM, disk, network, and processes.
 
 ---
 
-## ⏰ NTP
+## 🚀 [Homepage](https://github.com/thenextbutton/docker_compose/tree/main/homepage)
 
-Stack sets up a local **NTP (Network Time Protocol) server**. This can be useful for ensuring accurate time synchronization across all devices on your local network, especially in environments where internet access is limited or precise timekeeping is critical.
-
----
-
-## ⚡ Speedtest Tracker
-
-Directory contains the Docker Compose setup for **Speedtest Tracker**. It periodically runs speed tests and logs the results, allowing you to monitor your internet connection's performance over time.
+This stack sets up my customizable **homepage** for self-hosted services. It's my central dashboard for quick access and information.
 
 ---
 
-## 📄 Static Web Server
+## 🖼 [Koillection](https://github.com/thenextbutton/docker_compose/tree/main/koillection)
 
-Configuration provides a simple **static web server**. It's ideal for hosting static HTML, CSS, and JavaScript files, or serving as a lightweight web server for testing purposes.
-
----
-
-## 🍿 Tautulli
-
-
-Stack is for **Tautulli**, a Python-based web application that monitors, analyzes, and tracks statistics for your Plex Media Server. It provides detailed insights into your media consumption and server activity.
+My Docker Compose setup for **Koillection**, my collection management tool. I use it to organize and catalog my physical and digital collections.
 
 ---
 
-## 🗄 Tiny Media Manager
-
-Directory contains the Docker Compose setup for **Tiny Media Manager**. It's a media management tool used to organize and prepare your movie and TV show collections for media centers like Kodi or Plex, including fetching metadata and artwork.
-
----
-
-## ✅ Uptime Kuma
+## ▶ [MeTube](https://github.com/thenextbutton/docker_compose/tree/main/metube)
 
 
-Configuration deploys **Uptime Kuma**, a self-hosted monitoring tool like "Uptime Robot". It allows you to monitor the uptime of your services via HTTP(s), TCP, Ping, and more, with various notification options.
+This deploys **MeTube**, a web GUI for `yt-dlp`. I use it to easily download videos and audio from various platforms.
 
 ---
 
-## 🔐 Vaultwarden
+## 🚨 [NetAlertX](https://github.com/thenextbutton/docker_compose/tree/main/netalertx)
 
-
-Stack is for **Vaultwarden**, an unofficial Bitwarden-compatible server written in Rust. It provides a lightweight and efficient solution for self-hosting your password manager, ensuring your sensitive data remains under your control.
-
----
-
-## 💰 Wallos
-
-Directory contains the Docker Compose setup for **Wallos**, a self-hosted personal finance management tool. It helps you track your expenses, income, and budgets, providing insights into your financial habits.
+This stack is for **NetAlertX**, my network monitoring and alerting tool. It helps me track network devices, detect new ones, and get alerts for changes.
 
 ---
 
-## 🔄 Watchtower
+## ⚙ [Nginx Proxy Manager](https://github.com/thenextbutton/docker_compose/tree/main/nginx-proxy-manager)
 
-Configuration deploys **Watchtower**, a container that monitors your running Docker containers and automatically updates them to the latest available image when a new version is released. It helps keep your services up-to-date with minimal manual intervention.
+
+My Docker Compose setup for **Nginx Proxy Manager**. I use it for easy Nginx proxy host management and free Let's Encrypt SSL certificates.
+
+---
+
+## 🔔 [Ntfy](https://github.com/thenextbutton/docker_compose/tree/main/ntfy)
+
+This deploys **Ntfy**, my simple HTTP-based push notification service. I use it to send push notifications to my phone/desktop from scripts.
+
+---
+
+## ⏰ [NTP](https://github.com/thenextbutton/docker_compose/tree/main/ntp)
+
+This stack sets up a local **NTP (Network Time Protocol) server**. Handy for accurate time sync across my local network devices.
+
+---
+
+## ⚡ [Speedtest Tracker](https://github.com/thenextbutton/docker_compose/tree/main/speedtest-tracker)
+
+My Docker Compose setup for **Speedtest Tracker**. It runs periodic speed tests and logs results, helping me monitor my internet performance.
+
+---
+
+## 📄 [Static Web Server](https://github.com/thenextbutton/docker_compose/tree/main/static-web-server)
+
+This configuration provides a simple **static web server**. I use it for hosting basic HTML/CSS/JS files or quick testing.
+
+---
+
+## 🍿 [Tautulli](https://github.com/thenextbutton/docker_compose/tree/main/tautulli)
+
+
+This stack is for **Tautulli**, my Plex Media Server monitor. It tracks and analyzes statistics for my Plex activity.
+
+---
+
+## 🗄 [Tiny Media Manager](https://github.com/thenextbutton/docker_compose/tree/main/tiny_media_manager)
+
+My Docker Compose setup for **Tiny Media Manager**. I use it to organize and prepare my movie/TV show collections for media centers.
+
+---
+
+## ✅ [Uptime Kuma](https://github.com/thenextbutton/docker_compose/tree/main/uptime-kuma)
+
+
+This deploys **Uptime Kuma**, my self-hosted monitoring tool. I use it to check the uptime of my services via HTTP(s), TCP, Ping, etc., with notifications.
+
+---
+
+## 🔐 [Vaultwarden](https://github.com/thenextbutton/docker_compose/tree/main/vaultwarden)
+
+
+This stack is for **Vaultwarden**, my unofficial Bitwarden-compatible server. It's my lightweight solution for self-hosting my password manager.
+
+---
+
+## 💰 [Wallos](https://github.com/thenextbutton/docker_compose/tree/main/wallos)
+
+My Docker Compose setup for **Wallos**, a self-hosted personal finance management tool. I use it to track expenses, income, and budgets.
+
+---
+
+## 🔄 [Watchtower](https://github.com/thenextbutton/docker_compose/tree/main/watchtower)
+
+This configuration deploys **Watchtower**, a container that automatically updates my other running Docker containers to their latest images. Keeps things fresh.
