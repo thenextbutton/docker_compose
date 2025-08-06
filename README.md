@@ -1,4 +1,13 @@
 # 🐳 Docker Compose Stacks
+[![Docker Compose](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![Language: YAML](https://img.shields.io/badge/Language-YAML-cb171e?logo=yaml&logoColor=white)](https://yaml.org/)
+[![GitHub last commit](https://img.shields.io/github/last-commit/thenextbutton/docker_compose)](https://github.com/thenextbutton/docker_compose/commits/main)
+[![GitHub Issues](https://img.shields.io/github/issues/thenextbutton/docker_compose)](https://github.com/thenextbutton/docker_compose/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/thenextbutton/docker_compose)](https://github.com/thenextbutton/docker_compose/pulls)
+[![GitHub Stars](https://img.shields.io/github/stars/thenextbutton/docker_compose?style=social)](https://github.com/thenextbutton/docker_compose/stargazers)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/thenextbutton/docker_compose/blob/main/LICENSE)
+
+---
 
 These are my personal Docker Compose configurations for self-hosted applications and services. Each subdirectory holds a distinct stack, helping me remember how to deploy and manage them.
 
